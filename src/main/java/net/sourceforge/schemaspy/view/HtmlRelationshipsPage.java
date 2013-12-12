@@ -65,13 +65,17 @@ public class HtmlRelationshipsPage extends HtmlDiagramFormatter {
             }
 
             File compactRelationshipsDotFile = new File(diagramDir, dotBaseFilespec + ".real.compact.dot");
-            File compactRelationshipsDiagramFile = new File(diagramDir, dotBaseFilespec + ".real.compact." + dot.getFormat());
+            File compactRelationshipsDiagramFile = new File(diagramDir, dotBaseFilespec + ".real.compact." + dot.getBitmapFormat());
+            File compactRelationshipsVectorFile = new File(diagramDir, dotBaseFilespec + ".real.compact." + dot.getVectorFormat());
             File largeRelationshipsDotFile = new File(diagramDir, dotBaseFilespec + ".real.large.dot");
-            File largeRelationshipsDiagramFile = new File(diagramDir, dotBaseFilespec + ".real.large." + dot.getFormat());
+            File largeRelationshipsDiagramFile = new File(diagramDir, dotBaseFilespec + ".real.large." + dot.getBitmapFormat());
+            File largeRelationshipsVectorFile = new File(diagramDir, dotBaseFilespec + ".real.large." + dot.getVectorFormat());
             File compactImpliedDotFile = new File(diagramDir, dotBaseFilespec + ".implied.compact.dot");
-            File compactImpliedDiagramFile = new File(diagramDir, dotBaseFilespec + ".implied.compact." + dot.getFormat());
+            File compactImpliedDiagramFile = new File(diagramDir, dotBaseFilespec + ".implied.compact." + dot.getBitmapFormat());
+            File compactImpliedVectorFile = new File(diagramDir, dotBaseFilespec + ".implied.compact." + dot.getVectorFormat());
             File largeImpliedDotFile = new File(diagramDir, dotBaseFilespec + ".implied.large.dot");
-            File largeImpliedDiagramFile = new File(diagramDir, dotBaseFilespec + ".implied.large." + dot.getFormat());
+            File largeImpliedDiagramFile = new File(diagramDir, dotBaseFilespec + ".implied.large." + dot.getBitmapFormat());
+            File largeImpliedVectorFile = new File(diagramDir, dotBaseFilespec + ".implied.large." + dot.getVectorFormat());
 
             writeHeader(db, "All Relationships", hasRealRelationships, hasImpliedRelationships, html);
             html.writeln("<table width=\"100%\"><tr><td class=\"container\">");
@@ -80,8 +84,12 @@ public class HtmlRelationshipsPage extends HtmlDiagramFormatter {
                 if (!fineEnabled)
                     System.out.print(".");
 
-                html.writeln(dot.generateDiagram(compactRelationshipsDotFile, compactRelationshipsDiagramFile));
-                html.writeln("  <a name='diagram'><img id='realCompactImg' src='diagrams/summary/" + compactRelationshipsDiagramFile.getName() + "' usemap='#compactRelationshipsDiagram' class='diagram' border='0' alt=''></a>");
+                html.writeln(dot.generateDiagram(compactRelationshipsDotFile, compactRelationshipsDiagramFile, compactRelationshipsVectorFile));
+                html.writeln("  <a name='diagram'>");
+                html.writeln("    <object id='realCompactObj' data='diagrams/summary/" + compactRelationshipsVectorFile.getName() + "' type='image/svg+xml' class='diagram'>");
+                html.writeln("      <img id='realCompactImg' src='diagrams/summary/" + compactRelationshipsDiagramFile.getName() + "' usemap='#compactRelationshipsDiagram' class='diagram' border='0' alt=''>");
+                html.writeln("    </object>");
+                html.writeln("  </a>");
 
                 // we've run into instances where the first diagrams get generated, but then
                 // dot fails on the second one...try to recover from that scenario 'somewhat'
@@ -90,8 +98,12 @@ public class HtmlRelationshipsPage extends HtmlDiagramFormatter {
                     if (!fineEnabled)
                         System.out.print(".");
 
-                    html.writeln(dot.generateDiagram(largeRelationshipsDotFile, largeRelationshipsDiagramFile));
-                    html.writeln("  <a name='diagram'><img id='realLargeImg' src='diagrams/summary/" + largeRelationshipsDiagramFile.getName() + "' usemap='#largeRelationshipsDiagram' class='diagram' border='0' alt=''></a>");
+                    html.writeln(dot.generateDiagram(largeRelationshipsDotFile, largeRelationshipsDiagramFile, largeRelationshipsVectorFile));
+                    html.writeln("  <a name='diagram'>");
+                    html.writeln("    <object id='realLargeObj' data='diagrams/summary/" + largeRelationshipsVectorFile.getName() + "' type='image/svg+xml' class='diagram'>");
+                    html.writeln("      <img id='realLargeImg' src='diagrams/summary/" + largeRelationshipsDiagramFile.getName() + "' usemap='#largeRelationshipsDiagram' class='diagram' border='0' alt=''>");
+                    html.writeln("    </object>");
+                    html.writeln("  </a>");
                 } catch (Dot.DotFailure dotFailure) {
                     System.err.println("dot failed to generate all of the relationships diagrams:");
                     System.err.println(dotFailure);
@@ -104,14 +116,22 @@ public class HtmlRelationshipsPage extends HtmlDiagramFormatter {
                     if (!fineEnabled)
                         System.out.print(".");
 
-                    html.writeln(dot.generateDiagram(compactImpliedDotFile, compactImpliedDiagramFile));
-                    html.writeln("  <a name='diagram'><img id='impliedCompactImg' src='diagrams/summary/" + compactImpliedDiagramFile.getName() + "' usemap='#compactImpliedRelationshipsDiagram' class='diagram' border='0' alt=''></a>");
+                    html.writeln(dot.generateDiagram(compactImpliedDotFile, compactImpliedDiagramFile, compactImpliedVectorFile));
+                    html.writeln("  <a name='diagram'>");
+                    html.writeln("    <object id='impliedCompactObj' data='diagrams/summary/" + compactImpliedVectorFile.getName() + "' type='image/svg+xml' class='diagram'>");
+                    html.writeln("      <a name='diagram'><img id='impliedCompactImg' src='diagrams/summary/" + compactImpliedDiagramFile.getName() + "' usemap='#compactImpliedRelationshipsDiagram' class='diagram' border='0' alt=''>");
+                    html.writeln("    </object>");
+                    html.writeln("  </a>");
 
                     if (!fineEnabled)
                         System.out.print(".");
 
-                    html.writeln(dot.generateDiagram(largeImpliedDotFile, largeImpliedDiagramFile));
-                    html.writeln("  <a name='diagram'><img id='impliedLargeImg' src='diagrams/summary/" + largeImpliedDiagramFile.getName() + "' usemap='#largeImpliedRelationshipsDiagram' class='diagram' border='0' alt=''></a>");
+                    html.writeln(dot.generateDiagram(largeImpliedDotFile, largeImpliedDiagramFile, largeImpliedDiagramFile));
+                    html.writeln("  <a name='diagram'>");
+                    html.writeln("    <object id='impliedLargeObj' data='diagrams/summary/" + largeImpliedVectorFile.getName() + "' type='image/svg+xml' class='diagram'>");
+                    html.writeln("      <a name='diagram'><img id='impliedLargeImg' src='diagrams/summary/" + largeImpliedDiagramFile.getName() + "' usemap='#largeImpliedRelationshipsDiagram' class='diagram' border='0' alt=''>");
+                    html.writeln("    </object>");
+                    html.writeln("  </a>");
                 }
             } catch (Dot.DotFailure dotFailure) {
                 System.err.println("dot failed to generate all of the relationships diagrams:");

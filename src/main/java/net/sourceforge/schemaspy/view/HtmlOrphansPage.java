@@ -75,22 +75,25 @@ public class HtmlOrphansPage extends HtmlDiagramFormatter {
                 String dotBaseFilespec = table.getName();
 
                 File dotFile = new File(diagramDir, dotBaseFilespec + ".1degree.dot");
-                File imgFile = new File(diagramDir, dotBaseFilespec + ".1degree." + dot.getFormat());
+                File imgFile = new File(diagramDir, dotBaseFilespec + ".1degree." + dot.getBitmapFormat());
+                File objFile = new File(diagramDir, dotBaseFilespec + ".1degree." + dot.getVectorFormat());
 
                 LineWriter dotOut = new LineWriter(dotFile, Config.DOT_CHARSET);
                 DotFormatter.getInstance().writeOrphan(table, dotOut);
                 dotOut.close();
                 try {
-                    maps.append(dot.generateDiagram(dotFile, imgFile));
+                    maps.append(dot.generateDiagram(dotFile, imgFile, objFile));
                 } catch (Dot.DotFailure dotFailure) {
                     System.err.println(dotFailure);
                     return false;
                 }
 
-                html.write("  <img src='diagrams/orphans/" + imgFile.getName() + "' usemap='#" + table + "' border='0' alt='' align='top'");
+                html.writeln("  <object data='diagrams/orphans/" + objFile.getName() + "' type='image/svg+xml'>");
+                html.write("    <img src='diagrams/orphans/" + imgFile.getName() + "' usemap='#" + table + "' border='0' alt='' align='top'");
                 if (orphansWithImpliedRelationships.contains(table))
                     html.write(" class='impliedNotOrphan'");
                 html.writeln(">");
+                html.writeln("</object>");
             }
 
             html.write(maps.toString());

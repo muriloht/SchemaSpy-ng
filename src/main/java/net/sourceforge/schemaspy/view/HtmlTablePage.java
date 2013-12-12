@@ -478,23 +478,28 @@ public class HtmlTablePage extends HtmlFormatter {
      */
     private boolean generateDots(Table table, File diagramDir, WriteStats stats) throws IOException {
         Dot dot = Dot.getInstance();
-        String extension = dot == null ? "png" : dot.getFormat();
 
         File oneDegreeDotFile = new File(diagramDir, table.getName() + ".1degree.dot");
-        File oneDegreeDiagramFile = new File(diagramDir, table.getName() + ".1degree." + extension);
+        File oneDegreeDiagramFile = new File(diagramDir, table.getName() + ".1degree." + dot.getBitmapFormat());
+        File oneDegreeVectorFile = new File(diagramDir, table.getName() + ".1degree." + dot.getBitmapFormat());
         File twoDegreesDotFile = new File(diagramDir, table.getName() + ".2degrees.dot");
-        File twoDegreesDiagramFile = new File(diagramDir, table.getName() + ".2degrees." + extension);
+        File twoDegreesDiagramFile = new File(diagramDir, table.getName() + ".2degrees." + dot.getBitmapFormat());
+        File twoDegreesVectorFile = new File(diagramDir, table.getName() + ".2degrees." + dot.getBitmapFormat());
         File impliedDotFile = new File(diagramDir, table.getName() + ".implied2degrees.dot");
-        File impliedDiagramFile = new File(diagramDir, table.getName() + ".implied2degrees." + extension);
+        File impliedDiagramFile = new File(diagramDir, table.getName() + ".implied2degrees." + dot.getBitmapFormat());
+        File impliedVectorFile = new File(diagramDir, table.getName() + ".implied2degrees." + dot.getBitmapFormat());
 
         // delete before we start because we'll use the existence of these files to determine
         // if they should be turned into pngs & presented
         oneDegreeDotFile.delete();
         oneDegreeDiagramFile.delete();
+        oneDegreeVectorFile.delete();
         twoDegreesDotFile.delete();
         twoDegreesDiagramFile.delete();
+        twoDegreesVectorFile.delete();
         impliedDotFile.delete();
         impliedDiagramFile.delete();
+        impliedVectorFile.delete();
 
         if (table.getMaxChildren() + table.getMaxParents() > 0) {
             Set<ForeignKeyConstraint> impliedConstraints;

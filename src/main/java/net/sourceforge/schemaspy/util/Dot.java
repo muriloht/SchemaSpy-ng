@@ -39,7 +39,8 @@ public class Dot {
     private final Version badVersion = new Version("2.4");
     private final String lineSeparator = System.getProperty("line.separator");
     private String dotExe;
-    private String format = "png";
+    private String bitmapFormat = "png";
+    private String vectorFormat = "svg";
     private String renderer;
     private final Set<String> validatedRenderers = Collections.synchronizedSet(new HashSet<String>());
     private final Set<String> invalidatedRenderers = Collections.synchronizedSet(new HashSet<String>());
@@ -116,17 +117,25 @@ public class Dot {
      *
      * @param format image format to generate
      */
-    public void setFormat(String format) {
-        this.format = format;
+    public void setBitmapFormat(String bitmapFormat) {
+        this.bitmapFormat = bitmapFormat;
     }
 
     /**
      * @see #setFormat(String)
      * @return
      */
-    public String getFormat() {
-        return format;
+    public String getBitmapFormat() {
+        return bitmapFormat;
     }
+
+    public void setVectorFormat(String vectorFormat) {
+		this.vectorFormat = vectorFormat;
+	}
+
+    public String getVectorFormat() {
+		return vectorFormat;
+	}
 
     /**
      * Returns true if the installed dot requires specifying :gd as a renderer.
@@ -173,6 +182,14 @@ public class Dot {
     }
 
     /**
+     * @see #setVectorRenderer(String)
+     * @return the vector renderer to use
+     */
+    public String getVectorRenderer() {
+        return "";
+    }
+
+    /**
      * If <code>true</code> then generate output of "higher quality".
      * Note that the default is intended to be "higher quality",
      * but various installations of Graphviz may have have different abilities.
@@ -216,13 +233,13 @@ public class Dot {
         try {
             String[] dotCommand = new String[] {
                 getExe(),
-                "-T" + getFormat() + ':'
+                "-T" + getBitmapFormat() + ':'
             };
             Process process = Runtime.getRuntime().exec(dotCommand);
             BufferedReader errors = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             String line;
             while ((line = errors.readLine()) != null) {
-                if (line.contains(getFormat() + renderer)) {
+                if (line.contains(getBitmapFormat() + renderer)) {
                     validatedRenderers.add(renderer);
                 }
             }
@@ -232,7 +249,7 @@ public class Dot {
         }
 
         if (!validatedRenderers.contains(renderer)) {
-            logger.info("Failed to validate " + getFormat() + " renderer '" + renderer + "'.  Reverting to default renderer for " + getFormat() + '.');
+            logger.info("Failed to validate " + getBitmapFormat() + " renderer '" + renderer + "'.  Reverting to default renderer for " + getBitmapFormat() + '.');
             invalidatedRenderers.add(renderer);
             return false;
         }
@@ -263,19 +280,21 @@ public class Dot {
     }
 
     /**
-     * Using the specified .dot file generates an image returning the image's image map.
+     * Using the specified .dot file generates a vector image and a bitmap image, returning the image's image map.
      */
-    public String generateDiagram(File dotFile, File diagramFile) throws DotFailure {
+    public String generateDiagram(File dotFile, File bitmapFile, File vectorFile) throws DotFailure {
         StringBuilder mapBuffer = new StringBuilder(1024);
 
         BufferedReader mapReader = null;
         // this one is for executing.  it can (hopefully) deal with funky things in filenames.
         String[] dotCommand = new String[] {
             getExe(),
-            "-T" + getFormat() + getRenderer(),
+            "-T" + getVectorFormat() + getVectorRenderer(),
+            "-o" + vectorFile,
+            "-T" + getBitmapFormat() + getRenderer(),
+            "-o" + bitmapFile,
+            "-Tcmapx",
             dotFile.toString(),
-            "-o" + diagramFile,
-            "-Tcmapx"
         };
         // this one is for display purposes ONLY.
         String commandLine = getDisplayableCommand(dotCommand);
@@ -293,18 +312,23 @@ public class Dot {
             int rc = process.waitFor();
             if (rc != 0)
                 throw new DotFailure("'" + commandLine + "' failed with return code " + rc);
-            if (!diagramFile.exists())
-                throw new DotFailure("'" + commandLine + "' failed to create output file");
+            if (!bitmapFile.exists())
+                throw new DotFailure("'" + commandLine + "' failed to create bitmap output file");
+            if (!vectorFile.exists())
+                throw new DotFailure("'" + commandLine + "' failed to create vector output file");
 
             // dot generates post-HTML 4.0.1 output...convert trailing />'s to >'s
+            //System.out.println(mapBuffer);
             return mapBuffer.toString().replace("/>", ">");
         } catch (InterruptedException interrupted) {
             throw new RuntimeException(interrupted);
         } catch (DotFailure failed) {
-            diagramFile.delete();
+            bitmapFile.delete();
+            vectorFile.delete();
             throw failed;
         } catch (IOException failed) {
-            diagramFile.delete();
+            bitmapFile.delete();
+            vectorFile.delete();
             throw new DotFailure("'" + commandLine + "' failed with exception " + failed);
         } finally {
             if (mapReader != null) {
