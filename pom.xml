@@ -42,9 +42,9 @@
     </license>
   </licenses>
   <scm>
-    <url>http://schemaspy.svn.sourceforge.net/viewvc/schemaspy/</url>
-    <connection>scm:svn:${svn.url}</connection>
-    <developerConnection>scm:svn:${svn.url}</developerConnection>
+    <url>https://github.com/MattBlissett/SchemaSpy-ng</url>
+    <connection>scm:git:https://github.com/MattBlissett/SchemaSpy-ng.git</connection>
+    <developerConnection>scm:git:git@github.com:MattBlissett/SchemaSpy-ng.git</developerConnection>
   </scm>
   <developers>
     <developer>
@@ -91,7 +91,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>buildnumber-maven-plugin</artifactId>
-        <version>1.0-beta-3</version>
+        <version>1.2</version>
         <executions>
           <execution>
             <phase>validate</phase>
