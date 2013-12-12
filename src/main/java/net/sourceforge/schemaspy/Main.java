@@ -37,6 +37,12 @@ public class Main {
             return;
         }
 
+        int rc = schemaSpy(argv);
+
+        System.exit(rc);
+    }
+
+    public static int schemaSpy(String[] argv) throws Exception {
         SchemaAnalyzer analyzer = new SchemaAnalyzer();
 
         int rc = 1;
@@ -65,6 +71,6 @@ public class Main {
             exc.printStackTrace();
         }
 
-        System.exit(rc);
+        return rc;
     }
 }
