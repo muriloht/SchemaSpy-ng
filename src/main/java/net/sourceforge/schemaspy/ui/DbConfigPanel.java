@@ -39,7 +39,7 @@ import net.sourceforge.schemaspy.util.DbSpecificConfig;
  */
 public class DbConfigPanel extends JPanel {
     private static final long serialVersionUID = 1L;
-    private JComboBox databaseTypeSelector;
+    private JComboBox<DbSpecificConfig> databaseTypeSelector;
     private final DbConfigTableModel model = new DbConfigTableModel();
     private JTable table;
 
@@ -109,10 +109,10 @@ public class DbConfigPanel extends JPanel {
      *
      * @return javax.swing.JComboBox
      */
-    private JComboBox getDatabaseTypeSelector() {
+    private JComboBox<DbSpecificConfig> getDatabaseTypeSelector() {
         if (databaseTypeSelector == null) {
             DbTypeSelectorModel selectorModel = new DbTypeSelectorModel("ora");
-            databaseTypeSelector = new JComboBox(selectorModel);
+            databaseTypeSelector = new JComboBox<DbSpecificConfig>(selectorModel);
             databaseTypeSelector.addItemListener(new ItemListener() {
                 public void itemStateChanged(ItemEvent evt) {
                     if (evt.getStateChange() == ItemEvent.SELECTED)

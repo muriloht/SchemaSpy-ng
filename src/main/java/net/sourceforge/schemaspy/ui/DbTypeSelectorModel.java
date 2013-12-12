@@ -31,10 +31,10 @@ import net.sourceforge.schemaspy.util.DbSpecificConfig;
 /**
  * @author John Currier
  */
-public class DbTypeSelectorModel extends AbstractListModel implements ComboBoxModel {
+public class DbTypeSelectorModel extends AbstractListModel<DbSpecificConfig> implements ComboBoxModel<DbSpecificConfig> {
     private static final long serialVersionUID = 1L;
     private final List<DbSpecificConfig> dbConfigs = new ArrayList<DbSpecificConfig>();
-    private Object selected;
+    private DbSpecificConfig selected;
 
     public DbTypeSelectorModel(String defaultType) {
         Pattern pattern = Pattern.compile(".*/" + defaultType);
@@ -55,7 +55,7 @@ public class DbTypeSelectorModel extends AbstractListModel implements ComboBoxMo
     /* (non-Javadoc)
      * @see javax.swing.ComboBoxModel#getSelectedItem()
      */
-    public Object getSelectedItem() {
+    public DbSpecificConfig getSelectedItem() {
         return selected;
     }
 
@@ -63,13 +63,13 @@ public class DbTypeSelectorModel extends AbstractListModel implements ComboBoxMo
      * @see javax.swing.ComboBoxModel#setSelectedItem(java.lang.Object)
      */
     public void setSelectedItem(Object anItem) {
-        selected = anItem;
+        selected = (DbSpecificConfig) anItem;
     }
 
     /* (non-Javadoc)
      * @see javax.swing.ListModel#getElementAt(int)
      */
-    public Object getElementAt(int index) {
+    public DbSpecificConfig getElementAt(int index) {
         return dbConfigs.get(index);
     }
 
