@@ -85,9 +85,9 @@ public class HtmlRelationshipsPage extends HtmlDiagramFormatter {
                     System.out.print(".");
 
                 html.writeln(dot.generateDiagram(compactRelationshipsDotFile, compactRelationshipsDiagramFile, compactRelationshipsVectorFile));
-                html.writeln("  <a name='diagram'>");
-                html.writeln("    <object id='realCompactObj' data='diagrams/summary/" + compactRelationshipsVectorFile.getName() + "' type='image/svg+xml' class='diagram'>");
-                html.writeln("      <img id='realCompactImg' src='diagrams/summary/" + compactRelationshipsDiagramFile.getName() + "' usemap='#compactRelationshipsDiagram' class='diagram' border='0' alt=''>");
+                html.writeln("  <div class='diagram'>");
+                html.writeln("    <object id='realCompactImg' data='diagrams/summary/" + compactRelationshipsVectorFile.getName() + "' type='image/svg+xml'>");
+                html.writeln("      <img src='diagrams/summary/" + compactRelationshipsDiagramFile.getName() + "' usemap='#compactRelationshipsDiagram'>");
                 html.writeln("    </object>");
                 html.writeln("  </a>");
 
@@ -99,11 +99,11 @@ public class HtmlRelationshipsPage extends HtmlDiagramFormatter {
                         System.out.print(".");
 
                     html.writeln(dot.generateDiagram(largeRelationshipsDotFile, largeRelationshipsDiagramFile, largeRelationshipsVectorFile));
-                    html.writeln("  <a name='diagram'>");
-                    html.writeln("    <object id='realLargeObj' data='diagrams/summary/" + largeRelationshipsVectorFile.getName() + "' type='image/svg+xml' class='diagram'>");
-                    html.writeln("      <img id='realLargeImg' src='diagrams/summary/" + largeRelationshipsDiagramFile.getName() + "' usemap='#largeRelationshipsDiagram' class='diagram' border='0' alt=''>");
+                    html.writeln("  <div class='diagram'>");
+                    html.writeln("    <object id='realLargeImg' data='diagrams/summary/" + largeRelationshipsVectorFile.getName() + "' type='image/svg+xml'>");
+                    html.writeln("      <img src='diagrams/summary/" + largeRelationshipsDiagramFile.getName() + "' usemap='#largeRelationshipsDiagram'>");
                     html.writeln("    </object>");
-                    html.writeln("  </a>");
+                    html.writeln("  </div>");
                 } catch (Dot.DotFailure dotFailure) {
                     System.err.println("dot failed to generate all of the relationships diagrams:");
                     System.err.println(dotFailure);
@@ -117,21 +117,21 @@ public class HtmlRelationshipsPage extends HtmlDiagramFormatter {
                         System.out.print(".");
 
                     html.writeln(dot.generateDiagram(compactImpliedDotFile, compactImpliedDiagramFile, compactImpliedVectorFile));
-                    html.writeln("  <a name='diagram'>");
-                    html.writeln("    <object id='impliedCompactObj' data='diagrams/summary/" + compactImpliedVectorFile.getName() + "' type='image/svg+xml' class='diagram'>");
-                    html.writeln("      <a name='diagram'><img id='impliedCompactImg' src='diagrams/summary/" + compactImpliedDiagramFile.getName() + "' usemap='#compactImpliedRelationshipsDiagram' class='diagram' border='0' alt=''>");
+                    html.writeln("  <div class='diagram'>");
+                    html.writeln("    <object id='impliedCompactImg' data='diagrams/summary/" + compactImpliedVectorFile.getName() + "' type='image/svg+xml'>");
+                    html.writeln("      <img src='diagrams/summary/" + compactImpliedDiagramFile.getName() + "' usemap='#compactImpliedRelationshipsDiagram'>");
                     html.writeln("    </object>");
-                    html.writeln("  </a>");
+                    html.writeln("  </div>");
 
                     if (!fineEnabled)
                         System.out.print(".");
 
-                    html.writeln(dot.generateDiagram(largeImpliedDotFile, largeImpliedDiagramFile, largeImpliedDiagramFile));
-                    html.writeln("  <a name='diagram'>");
-                    html.writeln("    <object id='impliedLargeObj' data='diagrams/summary/" + largeImpliedVectorFile.getName() + "' type='image/svg+xml' class='diagram'>");
-                    html.writeln("      <a name='diagram'><img id='impliedLargeImg' src='diagrams/summary/" + largeImpliedDiagramFile.getName() + "' usemap='#largeImpliedRelationshipsDiagram' class='diagram' border='0' alt=''>");
+                    html.writeln(dot.generateDiagram(largeImpliedDotFile, largeImpliedDiagramFile, largeImpliedVectorFile));
+                    html.writeln("  <div class='diagram'>");
+                    html.writeln("    <object id='impliedLargeImg' data='diagrams/summary/" + largeImpliedVectorFile.getName() + "' type='image/svg+xml'>");
+                    html.writeln("      <img src='diagrams/summary/" + largeImpliedDiagramFile.getName() + "' usemap='#largeImpliedRelationshipsDiagram'>");
                     html.writeln("    </object>");
-                    html.writeln("  </a>");
+                    html.writeln("  </div>");
                 }
             } catch (Dot.DotFailure dotFailure) {
                 System.err.println("dot failed to generate all of the relationships diagrams:");

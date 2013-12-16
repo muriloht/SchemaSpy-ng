@@ -37,18 +37,18 @@ function associate(cb, target) {
 function syncImage() {
   var implied   = $('#implied').attr('checked');
 
-  $('.diagram').hide();
+  $('.diagram object').hide();
 
   if (table) {
     if (implied && $('#impliedTwoDegreesImg').size() > 0) {
-      $('#impliedTwoDegreesImg').show();
+        $('#impliedTwoDegreesImg').show();
     } else {
       var oneDegree = $('#oneDegree').attr('checked');
 
       if (oneDegree || $('#twoDegreesImg').size() == 0) {
-        $('#oneDegreeImg').show();
+          $('#oneDegreeImg').show();
       } else {
-        $('#twoDegreesImg').show();
+          $('#twoDegreesImg').show();
       }
     }
   } else {
@@ -56,17 +56,17 @@ function syncImage() {
 
     if (implied) {
       if (showNonKeys && $('#impliedLargeImg').size() > 0) {
-        $('#impliedLargeImg').show();
+          $('#impliedLargeImg').show();
       } else if ($('#impliedCompactImg').size() > 0) {
-        $('#impliedCompactImg').show();
+          $('#impliedCompactImg').show();
       } else {
-        $('#realCompactImg').show();
+          $('#realCompactImg').show();
       }
     } else {
       if (showNonKeys && $('#realLargeImg').size() > 0) {
-        $('#realLargeImg').show();
+          $('#realLargeImg').show();
       } else {
-        $('#realCompactImg').show();
+          $('#realCompactImg').show();
       }
     }
   }

@@ -64,30 +64,30 @@ public class HtmlTableDiagrammer extends HtmlDiagramFormatter {
             }
             html.write(map);
             map = null;
-            html.writeln("  <a name='diagram'>");
-            html.writeln("    <object id='oneDegreeObj' data='../diagrams/" + urlEncode(oneDegreeVectorFile.getName()) + "' type='image/svg+xml' class='diagram'>");
-            html.writeln("      <img id='oneDegreeImg' src='../diagrams/" + urlEncode(oneDegreeDiagramFile.getName()) + "' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'>");
+            html.writeln("  <div class='diagram'>");
+            html.writeln("    <object id='oneDegreeImg' data='../diagrams/" + urlEncode(oneDegreeVectorFile.getName()) + "' type='image/svg+xml'>");
+            html.writeln("      <img src='../diagrams/" + urlEncode(oneDegreeDiagramFile.getName()) + "' usemap='#oneDegreeRelationshipsDiagram'>");
             html.writeln("    </object>");
-            html.writeln("  </a>");
+            html.writeln("  </div>");
 
             if (impliedDotFile.exists()) {
                 html.writeln(dot.generateDiagram(impliedDotFile, impliedDiagramFile, impliedVectorFile));
-                html.writeln("  <a name='diagram'>");
-                html.writeln("    <object id='impliedTwoDegreesObj' data='../diagrams/" + urlEncode(impliedVectorFile.getName()) + "' type='image/svg+xml' class='diagram'>");
-                html.writeln("      <a name='diagram'><img id='impliedTwoDegreesImg' src='../diagrams/" + urlEncode(impliedDiagramFile.getName()) + "' usemap='#impliedTwoDegreesRelationshipsDiagram' class='diagram' border='0' alt='' align='left'>");
+                html.writeln("  <div class='diagram'>");
+                html.writeln("    <object id='impliedTwoDegreesImg' data='../diagrams/" + urlEncode(impliedVectorFile.getName()) + "' type='image/svg+xml'>");
+                html.writeln("      <img src='../diagrams/" + urlEncode(impliedDiagramFile.getName()) + "' usemap='#impliedTwoDegreesRelationshipsDiagram'>");
                 html.writeln("    </object>");
-                html.writeln("  </a>");
+                html.writeln("  </div>");
             } else {
                 impliedDotFile.delete();
                 impliedDiagramFile.delete();
             }
             if (twoDegreesDotFile.exists()) {
                 html.writeln(dot.generateDiagram(twoDegreesDotFile, twoDegreesDiagramFile, twoDegreesVectorFile));
-                html.writeln("  <a name='diagram'>");
-                html.writeln("    <object id='twoDegreesObj' data='../diagrams/" + urlEncode(twoDegreesVectorFile.getName()) + "' type='image/svg+xml' class='diagram'>");
-                html.writeln("      <a name='diagram'><img id='twoDegreesImg' src='../diagrams/" + urlEncode(twoDegreesDiagramFile.getName()) + "' usemap='#twoDegreesRelationshipsDiagram' class='diagram' border='0' alt='' align='left'>");
+                html.writeln("  <div class='diagram'>");
+                html.writeln("    <object id='twoDegreesImg' data='../diagrams/" + urlEncode(twoDegreesVectorFile.getName()) + "' type='image/svg+xml'>");
+                html.writeln("      <img src='../diagrams/" + urlEncode(twoDegreesDiagramFile.getName()) + "' usemap='#twoDegreesRelationshipsDiagram'>");
                 html.writeln("    </object>");
-                html.writeln("  </a>");
+                html.writeln("  </div>");
             } else {
                 twoDegreesDotFile.delete();
                 twoDegreesDiagramFile.delete();

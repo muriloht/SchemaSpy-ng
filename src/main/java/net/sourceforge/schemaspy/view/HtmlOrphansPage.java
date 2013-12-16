@@ -67,7 +67,7 @@ public class HtmlOrphansPage extends HtmlDiagramFormatter {
 
         writeHeader(db, "Utility Tables", !orphansWithImpliedRelationships.isEmpty(), html);
 
-        html.writeln("<a name='diagram'>");
+        html.writeln("<div class='diagram'>");
         try {
             StringBuilder maps = new StringBuilder(64 * 1024);
 
@@ -88,10 +88,11 @@ public class HtmlOrphansPage extends HtmlDiagramFormatter {
                     return false;
                 }
 
-                html.writeln("  <object data='diagrams/orphans/" + objFile.getName() + "' type='image/svg+xml'>");
-                html.write("    <img src='diagrams/orphans/" + imgFile.getName() + "' usemap='#" + table + "' border='0' alt='' align='top'");
+                html.writeln("  <object data='diagrams/orphans/" + objFile.getName() + "' type='image/svg+xml'");
                 if (orphansWithImpliedRelationships.contains(table))
                     html.write(" class='impliedNotOrphan'");
+                html.write(">");
+                html.write("    <img src='diagrams/orphans/" + imgFile.getName() + "' usemap='#" + table + "'");
                 html.writeln(">");
                 html.writeln("</object>");
             }
@@ -100,7 +101,7 @@ public class HtmlOrphansPage extends HtmlDiagramFormatter {
 
             return true;
         } finally {
-            html.writeln("</a>");
+            html.writeln("</div>");
             writeFooter(html);
         }
     }

@@ -155,11 +155,6 @@ table {
 .degrees {
 }
 
-/* don't display the diagrams until we know what to display */
-.diagram {
-  display: none;
-}
-
 .indent {
   padding: 2px;
 }
