@@ -12,7 +12,7 @@ body  {
 .content {
   margin: 0px;
   background: #F7F7F7;
-  border: 0 0;
+  border: none;
   padding:.4em;
 }
 
@@ -130,7 +130,7 @@ table {
 
 .relatedKey {
   display: none;
-  padding: 0px -4px 0px 4px;
+  padding: 0px 0px 0px 4px;
 }
 
 .constraint {
