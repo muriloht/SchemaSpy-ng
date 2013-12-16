@@ -118,6 +118,10 @@ public class Table implements Comparable<Table> {
                         rs.getInt("UPDATE_RULE"), rs.getInt("DELETE_RULE"),
                         tables);
             }
+        } catch (SQLException e) {
+            logger.log(Level.WARNING, "Exception while retrieving foreign keys", e);
+            // Problem with keys is 'fixed' (as far as possible, within the limitations of Sybase) here:
+            // http://sourceforge.net/p/jtds/discussion/104389/thread/4fb41830/
         } finally {
             if (rs != null)
                 rs.close();
@@ -139,6 +143,9 @@ public class Table implements Comparable<Table> {
                         db.addRemoteTable(otherCatalog, otherSchema, rs.getString("FKTABLE_NAME"), getSchema(), false);
                     }
                 }
+            } catch (SQLException e) {
+                logger.log(Level.WARNING, "Exception while retrieving foreign keys", e);
+                // See above.
             } finally {
                 if (rs != null)
                     rs.close();
