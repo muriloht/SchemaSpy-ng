@@ -49,7 +49,7 @@ public class DotNode {
 
     public DotNode(Table table, String path, DotNodeConfig config) {
         this.table = table;
-        this.path = path + (table.isRemote() ? ("../../" + table.getContainer() + "/tables/") : "");
+        this.path = path + (table.isRemote() ? ("../../" + table.getContainer() + "/tables/") : "../tables/");
         this.config = config;
     }
 
@@ -169,8 +169,10 @@ public class DotNode {
         buf.append("</TD></TR>" + lineSeparator);
 
         buf.append("    </TABLE>>" + lineSeparator);
-        if (!table.isRemote() || Config.getInstance().isOneOfMultipleSchemas())
+        if (!table.isRemote() || Config.getInstance().isOneOfMultipleSchemas()) {
             buf.append("    URL=\"" + path + HtmlFormatter.urlEncode(tableName) + ".html\"" + lineSeparator);
+            buf.append("    target=\"_top\"" + lineSeparator);
+        }
         buf.append("    tooltip=\"" + HtmlFormatter.urlEncode(fqTableName) + "\"" + lineSeparator);
         buf.append("  ];");
 
