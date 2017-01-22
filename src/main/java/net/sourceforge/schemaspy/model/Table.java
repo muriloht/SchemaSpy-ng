@@ -52,6 +52,7 @@ import net.sourceforge.schemaspy.util.CaseInsensitiveMap;
 public class Table implements Comparable<Table> {
     private final String catalog;
     private final String schema;
+    private String schemaQuote;
     private final String name;
     private final String fullName;
     private final String container;
@@ -347,8 +348,8 @@ public class Table implements Comparable<Table> {
         // so we can ask if the columns are auto updated
         // Ugh!!!  Should have been in DatabaseMetaData instead!!!
         StringBuilder sql = new StringBuilder("select * from ");
-        if (getSchema() != null) {
-            sql.append(getSchema());
+        if (getSchema(true) != null) {
+            sql.append(getSchema(true));
             sql.append('.');
         } else if (getCatalog() != null) {
             sql.append(getCatalog());
@@ -542,10 +543,19 @@ public class Table implements Comparable<Table> {
      *
      * @return
      */
-    public String getSchema() {
-        return schema;
+    public String getSchema(boolean quoter) {
+        return quoter?schemaQuote : schema;
     }
 
+    /**
+     * Returns the schema that the table belongs to
+     *
+     * @return
+     */
+    public String getSchema() {
+        return getSchema(false);
+    }
+    
     /**
      * Returns the logical 'container' that the table
      * lives in.  Basically it's the first non-<code>null</code>
@@ -1069,8 +1079,8 @@ public class Table implements Comparable<Table> {
         StringBuilder sql = new StringBuilder("select ");
         sql.append(clause);
         sql.append(" from ");
-        if (getSchema() != null) {
-            sql.append(getSchema());
+        if (getSchema(true) != null) {
+            sql.append(getSchema(true));
             sql.append('.');
         } else if (getCatalog() != null) {
             sql.append(getCatalog());
