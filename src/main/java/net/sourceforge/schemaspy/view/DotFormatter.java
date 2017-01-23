@@ -291,12 +291,12 @@ public class DotFormatter {
 
         for (Table table : tables) {
             if (!table.isOrphan(includeImplied)) {
-                nodes.put(table, new DotNode(table, "tables/", nodeConfig));
+                nodes.put(table, new DotNode(table, "../", nodeConfig));
             }
         }
 
         for (Table table : db.getRemoteTables()) {
-            nodes.put(table, new DotNode(table, "tables/", nodeConfig));
+            nodes.put(table, new DotNode(table, "../", nodeConfig));
         }
 
         Set<DotConnector> connectors = new TreeSet<DotConnector>();
